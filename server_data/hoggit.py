@@ -1,15 +1,8 @@
 from datetime import datetime, timedelta
-from json import loads
 from re import match
-from typing import Literal
-from urllib.request import urlopen
 
 
-def get_hoggit(server: Literal['gaw', 'pgaw']) -> dict:
-    with urlopen(f'https://statecache.hoggitworld.com/{server}', timeout=30) as pipe:
-        response = pipe.read().decode('utf-8')
-    data_dict = loads(response)
-
+def parse_hoggit(data_dict: dict) -> dict:
     # Check data to be processed for unexpected types
     if (type(data_dict['objects']), type(data_dict['players']), type(data_dict['uptime'])) != (list, int, float) \
             or data_dict['updateTime'] == '':
